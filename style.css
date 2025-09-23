@@ -1,0 +1,53 @@
+/* Center whole page */
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: system-ui, Arial, sans-serif;
+  }
+  .page {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Board layout: 3 rows stacked vertically */
+  .board {
+    display: flex;
+    flex-direction: column; /* rows on top of each other */
+    gap: 8px;               /* space between rows */
+  }
+  
+  /* Each row lays out 3 cells left→right */
+  .row {
+    display: flex;
+    flex-direction: row;    /* cells side by side */
+    gap: 8px;               /* space between cells */
+  }
+  
+  /* Cells look like tiles */
+  .cell {
+    width: 60px;
+    height: 60px;
+    background: cyan;
+    border: 1px solid #000; /* thin border */
+    display: flex;          /* center X/O */
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    font-weight: 700;
+    user-select: none;
+    cursor: pointer;
+  }
+  
+  /* Bits of UI */
+  h1 { margin: 0 0 8px; }
+  .status { min-height: 1.2em; }
+  .reset {
+    padding: 8px 14px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
