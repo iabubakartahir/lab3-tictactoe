@@ -1,53 +1,134 @@
-/* Center whole page */
-html, body {
-    height: 100%;
-    margin: 0;
-    font-family: system-ui, Arial, sans-serif;
-  }
-  .page {
-    min-height: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  /* Board layout: 3 rows stacked vertically */
-  .board {
-    display: flex;
-    flex-direction: column; /* rows on top of each other */
-    gap: 8px;               /* space between rows */
-  }
-  
-  /* Each row lays out 3 cells left→right */
-  .row {
-    display: flex;
-    flex-direction: row;    /* cells side by side */
-    gap: 8px;               /* space between cells */
-  }
-  
-  /* Cells look like tiles */
-  .cell {
-    width: 60px;
-    height: 60px;
-    background: cyan;
-    border: 1px solid #000; /* thin border */
-    display: flex;          /* center X/O */
-    align-items: center;
-    justify-content: center;
-    font-size: 36px;
-    font-weight: 700;
-    user-select: none;
-    cursor: pointer;
-  }
-  
-  /* Bits of UI */
-  h1 { margin: 0 0 8px; }
-  .status { min-height: 1.2em; }
-  .reset {
-    padding: 8px 14px;
-    font-size: 14px;
-    cursor: pointer;
-  }
-  
+:root {
+  --bg: #ffffff;
+  --text: #111;
+  --tile: #00cfe6;       /* cyan */
+  --tile-border: #000;
+  --tile-hover: #7be9f3;
+  --win: #00c853;        /* green */
+  --hint: #ff9800;       /* amber */
+  --focus: #2962ff;      /* blue */
+  --panel: #f3f5f7;
+}
+
+body[data-theme="dark"] {
+  --bg: #0f1216;
+  --text: #e7ecf2;
+  --tile: #147c86;
+  --tile-border: #9fb7bd;
+  --tile-hover: #1b9baa;
+  --win: #2ecc71;
+  --hint: #ffc107;
+  --focus: #7aa2ff;
+  --panel: #1a2027;
+}
+
+* { box-sizing: border-box; }
+
+html, body { height: 100%; margin: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+.page {
+  min-height: 100%;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+}
+
+h1 { margin: 0; font-size: 28px; }
+
+.status { min-height: 1.4em; font-weight: 600; }
+
+.controls, .actions, .scoreboard {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  background: var(--panel);
+  padding: 10px 12px;
+  border-radius: 14px;
+}
+
+.control-group {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.control-group label { font-size: 14px; }
+.control-group select { padding: 6px 8px; }
+.toggle { display: inline-flex; gap: 6px; align-items: center; }
+
+.scoreboard > div {
+  min-width: 90px;
+  text-align: center;
+  font-weight: 700;
+}
+
+/* Board layout (rows + cells) */
+.board { display: flex; flex-direction: column; gap: 8px; }
+.row { display: flex; gap: 8px; }
+
+.cell {
+  width: 80px;
+  height: 80px;
+  background: var(--tile);
+  border: 2px solid var(--tile-border);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 42px;
+  font-weight: 800;
+  cursor: pointer;
+  position: relative;
+  transition: background 100ms ease; /* light for perf */
+  user-select: none;
+  outline: none;
+}
+
+.cell.empty:hover { background: var(--tile-hover); }
+
+.cell:focus-visible { box-shadow: 0 0 0 3px var(--focus); }
+
+/* Ghost preview of current player on hover */
+.cell.empty:hover::after {
+  content: attr(data-ghost);
+  opacity: 0.45;
+  position: absolute;
+  font-size: 42px;
+  font-weight: 800;
+}
+
+/* Hint highlight */
+.cell.hint {
+  outline: 3px dashed var(--hint);
+  outline-offset: 2px;
+}
+
+/* Winning line (no heavy animation for perf) */
+.cell.win { background: var(--win) !important; }
+
+.btn {
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 1px solid #8884;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  font-weight: 600;
+}
+.btn:hover { transform: translateY(-1px); }
+
+.note { opacity: 0.75; font-size: 13px; margin: 0; }
+
+/* Hide “You play as” when not in PVC mode */
+.only-pvc { display: none; }
+body.pvc .only-pvc { display: inline-flex; }

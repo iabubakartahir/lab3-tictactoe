@@ -3,34 +3,83 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Lab 3 — Tic Tac Toe</title>
+  <title>Lab 3 — Tic Tac Toe (Pro)</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-<body>
-  <div id="page" class="page">
+<body data-theme="light">
+  <main class="page">
     <h1>Tic Tac Toe</h1>
-    <div id="status" class="status">Loading…</div>
 
-    <div id="gameBoard" class="board">
-      <div class="row">
-        <div id="cell-0" class="cell"></div>
-        <div id="cell-1" class="cell"></div>
-        <div id="cell-2" class="cell"></div>
+    <!-- ✅ Lab requirement: status text lives in HTML -->
+    <div id="status" class="status" aria-live="polite">Loading…</div>
+
+    <!-- Controls -->
+    <section class="controls">
+      <div class="control-group">
+        <label for="mode">Mode</label>
+        <select id="mode">
+          <option value="PVP">Player vs Player</option>
+          <option value="PVC_EASY">You vs Computer (Easy)</option>
+          <option value="PVC_UNBEATABLE">You vs Computer (Unbeatable)</option>
+        </select>
       </div>
-      <div class="row">
-        <div id="cell-3" class="cell"></div>
-        <div id="cell-4" class="cell"></div>
-        <div id="cell-5" class="cell"></div>
+
+      <div class="control-group only-pvc">
+        <label for="humanAs">You play as</label>
+        <select id="humanAs">
+          <option value="X">X</option>
+          <option value="O">O</option>
+        </select>
       </div>
-      <div class="row">
-        <div id="cell-6" class="cell"></div>
-        <div id="cell-7" class="cell"></div>
-        <div id="cell-8" class="cell"></div>
+
+      <div class="control-group">
+        <label for="firstPlayer">First move</label>
+        <select id="firstPlayer">
+          <option value="X">X</option>
+          <option value="O">O</option>
+          <option value="RANDOM">Random</option>
+        </select>
       </div>
+
+      <div class="control-group">
+        <label for="theme">Theme</label>
+        <select id="theme">
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+        </select>
+      </div>
+
+      <div class="toggles">
+        <label class="toggle">
+          <input type="checkbox" id="soundToggle" checked />
+          <span>Sound</span>
+        </label>
+      </div>
+    </section>
+
+    <!-- Scoreboard -->
+    <div class="scoreboard">
+      <div>X wins: <span id="xWins">0</span></div>
+      <div>O wins: <span id="oWins">0</span></div>
+      <div>Draws: <span id="draws">0</span></div>
     </div>
 
-    <button id="resetBtn" class="reset">Reset</button>
-  </div>
+    <!-- Auto-generated board goes here -->
+    <div id="gameBoard" class="board" role="grid" aria-label="Tic Tac Toe board"></div>
+
+    <!-- Actions -->
+    <div class="actions">
+      <button id="newGame" class="btn">New Game</button>
+      <button id="undoBtn" class="btn">Undo</button>
+      <button id="redoBtn" class="btn">Redo</button>
+      <button id="hintBtn" class="btn">Hint</button>
+      <button id="resetScores" class="btn">Reset Scores</button>
+    </div>
+
+    <p class="note">
+      Tip: Use arrow keys to move, press <kbd>Enter</kbd>/<kbd>Space</kbd> to place.
+    </p>
+  </main>
 
   <script src="app.js"></script>
 </body>
